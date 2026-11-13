@@ -10,7 +10,7 @@ Kostenlos und Open Source. Kein Konto, keine Server, kein Tracking.
 
 ![Orbitdeck Edge auf einer XENEON EDGE (Szene Ringwelt)](docs/images/de/hero.png)
 
-**[⬇ Neueste Version herunterladen](https://github.com/KaelanTesseract/orbitdeck-edge/releases/latest)** · [Einrichtung](docs/SETUP.md#deutsch) · [Datenschutz](PRIVACY.md#deutsch)
+**[⬇ Neueste Version herunterladen](https://github.com/KaelanTesseract/orbitdeck-edge/releases/latest)** · [Einrichtung](docs/SETUP.md#deutsch) · [Datenschutz](PRIVACY.md#deutsch) · [Projektseite](https://dennis-guse.de/projekte/orbitdeck-edge.html)
 
 ---
 
