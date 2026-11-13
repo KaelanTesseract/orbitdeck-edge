@@ -1,0 +1,26 @@
+{
+  "author": "KaelanTesseract",
+  "id": "io.github.kaelantesseract.orbitdeckspike",
+  "name": "Orbitdeck Spike",
+  "description": "Test build for Orbitdeck Edge: WebGL scene performance, text input and sound on the XENEON EDGE.",
+  "version": "0.0.4",
+  "preview_icon": "resources/icon.svg",
+  "min_app_version": "5.52",
+  "min_framework_version": "1.9.0",
+  "os": [
+    {
+      "platform": "windows"
+    }
+  ],
+  "supported_devices": [
+    {
+      "type": "dashboard_lcd"
+    }
+  ],
+  "interactive": true,
+  "permissions": [
+    {
+      "type": "speaker"
+    }
+  ]
+}

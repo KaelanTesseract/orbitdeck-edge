@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>'Orbitdeck Spike'</title>
+  <link rel="icon" type="image/svg+xml" href="resources/icon.svg" />
+  <link rel="stylesheet" href="styles/spike.css" />
+  <meta name="x-icue-property" content="textColor" data-label="'Text Color'" data-type="color" data-default="'#f4efe6'" />
+  <meta name="x-icue-property" content="accentColor" data-label="'Accent Color'" data-type="color" data-default="'#f0a24a'" />
+  <script id="x-icue-groups" type="application/json">
+  [
+    { "title": "'Widget Personalization'", "properties": ["textColor", "accentColor"] }
+  ]
+  </script>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <div class="focus card">
+    <div class="focus-text">
+      <div class="focus-state"><span class="dot"></span>L&#196;UFT</div>
+      <div class="focus-task">Produktvideo schneiden</div>
+    </div>
+    <div class="focus-time"><div class="focus-elapsed" id="focusElapsed">1:42:18</div><div class="focus-goal">/ 8:00:00</div></div>
+    <div class="focus-bar"><span id="focusBar"></span></div>
+  </div>
+
+  <main class="center">
+    <div class="weekday" id="weekday">DONNERSTAG</div>
+    <div class="date" id="date"></div>
+    <div class="time" id="time"></div>
+    <div class="rule"></div>
+    <div class="viz" id="viz"></div>
+    <div class="track">Mitternachtsfahrt</div>
+    <div class="artist">Lofi-Demo</div>
+    <div class="controls">
+      <button class="round small" aria-label="Zur&#252;ck"><svg viewBox="0 0 24 24"><path d="M7 6v12M18 6l-8 6 8 6z" /></svg></button>
+      <button class="round play" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M9 6v12M15 6v12" /></svg></button>
+      <button class="round small" aria-label="Weiter"><svg viewBox="0 0 24 24"><path d="M17 6v12M6 6l8 6-8 6z" /></svg></button>
+    </div>
+  </main>
+
+  <nav class="dock">
+    <button class="dock-btn"><span class="ring"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="17" cy="16" r="3" /></svg></span><span class="lbl">MUSIK</span></button>
+    <button class="dock-btn"><span class="ring"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5" /><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" /><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" /><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" /></svg></span><span class="lbl">SHORTCUTS</span></button>
+    <button class="dock-btn"><span class="ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M8 12.3l2.7 2.7L16 9.6" /></svg></span><span class="lbl">AUFGABEN</span></button>
+    <button class="dock-btn"><span class="ring"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2" /><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M8 13.5h2M12 13.5h2M8 16.5h2" /></svg></span><span class="lbl">KALENDER</span></button>
+    <button class="dock-btn"><span class="ring"><svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="11.5" rx="1.5" /><path d="M9 20h6M12 16v4" /></svg></span><span class="lbl">SYSTEM</span></button>
+    <button class="dock-btn"><span class="ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" /></svg></span><span class="lbl">OPTIONEN</span></button>
+  </nav>
+
+  <!-- test tools (spike only) -->
+  <button class="test-toggle" id="testToggle">TEST</button>
+  <div class="hud test" id="hud"></div>
+  <div class="glass" id="glass"><div class="glass-title">Glas-Panel (backdrop-filter: blur 24px)</div>
+    <div class="input-test" id="inputTest" hidden>
+      <label>Eingabe-Test: hier tippen, erscheint eine Windows-Tastatur?</label>
+      <input id="testInput" type="text" placeholder="Tippen ..." autocomplete="off" />
+      <div id="keyLog">Tasten: -</div>
+    </div>
+  </div>
+  <div class="bar test">
+    <button id="bRocks">Brocken</button>
+    <button id="bScale">Aufl&#246;sung</button>
+    <button id="bGlass">Glas</button>
+    <button id="bLimit">FPS-Limit</button>
+    <button id="bBloom">Bloom</button>
+    <button id="bInput">Eingabe-Test</button>
+    <button id="bSound">Ton-Test</button>
+    <button id="bBench">Messreihe</button>
+  </div>
+  <div class="result" id="result" hidden></div>
+  <script src="scripts/textures.js"></script>
+  <script src="scripts/scene.js"></script>
+  <script src="scripts/spike.js"></script>
+</body>
+</html>

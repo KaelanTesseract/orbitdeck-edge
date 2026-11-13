@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+.vs/
+spike/*.json
+dist/
+artifacts/
+spike/widget/scripts/textures.js

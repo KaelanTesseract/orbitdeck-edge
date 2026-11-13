@@ -1,0 +1,128 @@
+/* Orbitdeck Edge – designed for XENEON EDGE XL horizontal (2536x696).
+   One unit --u = 1 % of the slot height; every size derives from it. Smaller slots show scene + clock only. */
+:root {
+  --u: calc(100vh / 100);
+  --text: #f6f1e8;
+  --accent: #f0a24a;
+  --glass-tint: 10, 11, 16;
+  --glass: rgba(var(--glass-tint), 0.42);
+  --glass-strong: rgba(var(--glass-tint), 0.62);
+  --line: rgba(255, 255, 255, 0.34);
+  --line-soft: rgba(255, 255, 255, 0.12);
+  --scene-opacity: 1;
+  --font: "Bahnschrift", "Segoe UI", sans-serif;
+}
+html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; color: var(--text);
+  font-family: var(--font); user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; touch-action: manipulation; }
+svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+[hidden] { display: none !important; }
+
+.root { position: fixed; inset: 0; overflow: hidden; }
+.scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: var(--scene-opacity); transition: opacity 1.2s ease; }
+.root.loading .scene { opacity: 0; }
+.fallback { position: absolute; inset: 0; opacity: var(--scene-opacity);
+  background: radial-gradient(ellipse 30% 70% at 52% 50%, #7a4318 0%, #2a1408 45%, transparent 70%),
+              radial-gradient(ellipse 60% 120% at 35% 50%, rgba(240, 150, 60, 0.25), transparent 60%), #030305; }
+.ui { position: absolute; inset: 0; transition: opacity 0.4s ease; }
+
+/* ---------- centre column ---------- */
+.center { position: absolute; left: 50%; top: calc(var(--u) * 3.2); transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; pointer-events: none;
+  text-shadow: 0 0 calc(var(--u) * 2) rgba(0, 0, 0, 0.55); transition: opacity 0.35s ease, transform 0.35s ease; }
+/* weekday and time are drawn with the own line glyphs (scripts/glyphs.js): font-size = cap height */
+.weekday { font-size: calc(var(--u) * 7.8); line-height: 0; white-space: nowrap; }
+.glyphs { display: block; overflow: visible; filter: drop-shadow(0 0 calc(var(--u) * 1.2) rgba(0, 0, 0, 0.6)); }
+.date { margin-top: calc(var(--u) * 2.2); font-size: calc(var(--u) * 3.1); font-weight: 600; letter-spacing: 0.26em; margin-right: -0.26em; white-space: nowrap; }
+.time { margin-top: calc(var(--u) * 1.6); font-size: calc(var(--u) * 6.4); line-height: 0; display: flex; align-items: flex-end; white-space: nowrap; }
+.time > span:first-child { display: block; }
+.ampm { font-size: 0.38em; line-height: 1; font-weight: 500; letter-spacing: 0.12em; margin-left: 0.4em; opacity: 0.75; }
+.rule { width: calc(var(--u) * 6); height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent); margin-top: calc(var(--u) * 2.6); }
+.root.no-weekday .weekday, .root.no-date .date { display: none; }
+.root.no-weekday .date { margin-top: calc(var(--u) * 4); }
+.root.panel-open .center { opacity: 0; transform: translateX(-50%) translateY(calc(var(--u) * -3)); }
+
+/* ---------- dock ---------- */
+.dock { position: absolute; left: 50%; bottom: calc(var(--u) * 2.2); transform: translateX(-50%); display: flex; gap: calc(var(--u) * 11); z-index: 3; }
+.dock-btn { display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 2.2); }
+.ring { width: calc(var(--u) * 9.6); height: calc(var(--u) * 9.6); border-radius: 50%; display: grid; place-items: center;
+  background: var(--glass); border: 1.5px solid var(--line); backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 calc(var(--u) * 2) rgba(255, 255, 255, 0.04); transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; }
+.ring svg { width: 42%; height: 42%; }
+.dock-btn:active .ring { background: rgba(255, 255, 255, 0.08); }
+.dock-btn.on .ring { border-color: var(--accent); box-shadow: 0 0 calc(var(--u) * 2.5) color-mix(in srgb, var(--accent) 45%, transparent); }
+.dock-btn.on .lbl { color: var(--accent); }
+.lbl { font-size: calc(var(--u) * 1.9); font-weight: 700; letter-spacing: 0.3em; margin-right: -0.3em; text-shadow: 0 0 calc(var(--u) * 1.5) rgba(0, 0, 0, 0.7); }
+
+.movie-btn { position: absolute; right: calc(var(--u) * 3.5); bottom: calc(var(--u) * 6.4); width: calc(var(--u) * 7); height: calc(var(--u) * 7);
+  border-radius: 50%; display: grid; place-items: center; background: var(--glass); border: 1.5px solid var(--line-soft);
+  backdrop-filter: blur(10px); opacity: 0.75; z-index: 3; }
+.movie-btn svg { width: 44%; height: 44%; }
+.movie-btn:active { opacity: 1; border-color: var(--accent); }
+
+/* ---------- panels: smoked glass sliding up from the bottom ---------- */
+.panel-layer { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.panel { position: absolute; left: 50%; bottom: calc(var(--u) * 20.5); width: calc(var(--u) * 205); height: calc(var(--u) * 70);
+  box-sizing: border-box; padding: calc(var(--u) * 3) calc(var(--u) * 4.5) calc(var(--u) * 4);
+  background: linear-gradient(180deg, rgba(var(--glass-tint), 0.5), rgba(var(--glass-tint), 0.66));
+  border: 1px solid var(--line-soft); border-radius: calc(var(--u) * 3.2);
+  backdrop-filter: blur(26px) saturate(1.25) brightness(0.8);
+  box-shadow: 0 calc(var(--u) * 2) calc(var(--u) * 8) rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translate(-50%, calc(100% + var(--u) * 25)); opacity: 0;
+  transition: transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease; pointer-events: none;
+  display: flex; flex-direction: column; }
+.panel.open { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; }
+.panel-head h2 { margin: 0; font-size: calc(var(--u) * 2.4); font-weight: 700; letter-spacing: 0.34em; color: var(--accent); }
+.close { width: calc(var(--u) * 6); height: calc(var(--u) * 6); border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line-soft); background: rgba(255, 255, 255, 0.04); }
+.close svg { width: 40%; height: 40%; }
+.panel-body { flex: 1; min-height: 0; margin-top: calc(var(--u) * 2.5); }
+.soon { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--u) * 2.5); opacity: 0.6; }
+.soon svg { width: calc(var(--u) * 9); height: calc(var(--u) * 9); stroke-width: 1.2; }
+.soon p { margin: 0; font-size: calc(var(--u) * 2.8); letter-spacing: 0.04em; }
+
+/* options */
+.options { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: calc(var(--u) * 4); }
+.opt-col { display: flex; flex-direction: column; gap: calc(var(--u) * 1.6); min-width: 0; }
+.opt-col h3 { margin: 0 0 calc(var(--u) * 0.6); font-size: calc(var(--u) * 1.9); font-weight: 700; letter-spacing: 0.3em; opacity: 0.55; }
+.row-switch { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 2);
+  padding: calc(var(--u) * 1.9) calc(var(--u) * 2.4); border-radius: calc(var(--u) * 1.8);
+  background: rgba(255, 255, 255, 0.045); border: 1px solid var(--line-soft); font-size: calc(var(--u) * 2.7); text-align: left; }
+.switch { flex: none; position: relative; width: calc(var(--u) * 7); height: calc(var(--u) * 3.8); border-radius: 99px;
+  background: rgba(255, 255, 255, 0.16); transition: background 0.2s; }
+.switch::after { content: ""; position: absolute; top: 12%; left: 7%; width: calc(var(--u) * 2.9); height: calc(var(--u) * 2.9);
+  border-radius: 50%; background: #fff; transition: transform 0.2s; }
+.row-switch.on .switch { background: var(--accent); }
+.row-switch.on .switch::after { transform: translateX(calc(var(--u) * 3.1)); }
+.row-label { font-size: calc(var(--u) * 2.4); opacity: 0.8; }
+.segmented { display: flex; gap: calc(var(--u) * 1); }
+.segmented button { flex: 1; padding: calc(var(--u) * 1.8) 0; border-radius: calc(var(--u) * 1.6); font-size: calc(var(--u) * 2.5);
+  background: rgba(255, 255, 255, 0.045); border: 1px solid var(--line-soft); font-variant-numeric: tabular-nums; }
+.segmented button.on { background: color-mix(in srgb, var(--accent) 30%, transparent); border-color: var(--accent); }
+.hint { margin: 0; font-size: calc(var(--u) * 2.1); line-height: 1.4; opacity: 0.6; }
+.hold-btn { position: relative; overflow: hidden; padding: calc(var(--u) * 2.2) calc(var(--u) * 2.4); border-radius: calc(var(--u) * 1.8);
+  border: 1px solid rgba(255, 120, 90, 0.55); background: rgba(255, 90, 60, 0.08); font-size: calc(var(--u) * 2.7); }
+.hold-fill { position: absolute; inset: 0; width: 0; background: rgba(255, 100, 70, 0.4); }
+.hold-btn.holding .hold-fill { width: 100%; transition: width 1.5s linear; }
+.hold-text { position: relative; }
+.about { margin: auto 0 0; font-size: calc(var(--u) * 1.8); line-height: 1.5; opacity: 0.45; }
+
+/* ---------- movie mode ---------- */
+.movie { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; z-index: 10; }
+.root.movie-on .movie { opacity: var(--movie-dim, 0.9); pointer-events: auto; }
+.root.movie-on .ui { opacity: 0; pointer-events: none; }
+
+.toast { position: absolute; left: 50%; top: calc(var(--u) * 5); transform: translateX(-50%); z-index: 11;
+  padding: calc(var(--u) * 1.6) calc(var(--u) * 3.2); border-radius: 99px; background: var(--glass-strong); border: 1px solid var(--line-soft);
+  backdrop-filter: blur(14px); font-size: calc(var(--u) * 2.5); letter-spacing: 0.05em; }
+
+/* ---------- not the XL slot: scene + clock only ---------- */
+@media (max-aspect-ratio: 3/1) {
+  .dock, .movie-btn, .panel-layer { display: none; }
+  .center { top: 50%; transform: translate(-50%, -50%); }
+  .weekday { font-size: calc(var(--u) * 7); }
+}
+@media (max-aspect-ratio: 3/1) and (max-width: 900px) {
+  :root { --u: calc(100vw / 100 * 0.42); }
+}

@@ -1,0 +1,32 @@
+{
+  "author": "KaelanTesseract",
+  "id": "io.github.kaelantesseract.orbitdeckedge",
+  "name": "Orbitdeck Edge",
+  "description": "A live space scene for the XENEON EDGE (XL): a ringed planet with moons and a rock belt, clock, music, tasks, calendar, system and more in glass panels.",
+  "version": "0.9.0",
+  "preview_icon": "resources/icon.svg",
+  "min_app_version": "5.52",
+  "min_framework_version": "1.9.0",
+  "os": [
+    {
+      "platform": "windows"
+    }
+  ],
+  "supported_devices": [
+    {
+      "type": "dashboard_lcd"
+    }
+  ],
+  "interactive": true,
+  "required_plugins": [
+    "widgetbuilder.sensorsdataprovider:Sensors:1.0",
+    "widgetbuilder.mediadataprovider:Media:1.1"
+  ],
+  "permissions": [
+    {
+      "type": "url",
+      "domain": "localhost",
+      "port": 47822
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+/* Orbitdeck Edge – everything that needs the hub: status in the options, sound controls, shortcuts,
+   RAM/network and PC commands. Same unit system as orbitdeck.css (--u = 1 % of the slot height). */
+
+/* ---------- hub status (options) ---------- */
+.hub-state { display: flex; align-items: center; gap: calc(var(--u) * 1.4); font-size: calc(var(--u) * 2.6); }
+.hub-dot { width: calc(var(--u) * 1.4); height: calc(var(--u) * 1.4); border-radius: 50%; background: #8a8f99; flex: none; }
+.root.hub-ready .hub-dot { background: #6fd38b; box-shadow: 0 0 calc(var(--u) * 1.4) #6fd38b; }
+.hub-actions { display: flex; gap: calc(var(--u) * 1); flex-wrap: wrap; }
+.hub-actions .btn { padding: calc(var(--u) * 1.2) calc(var(--u) * 2.2); font-size: calc(var(--u) * 2.1); }
+
+/* ---------- sound controls (music panel) ---------- */
+.sound-side { gap: calc(var(--u) * 1.2); }
+.vol-row { display: flex; align-items: center; gap: calc(var(--u) * 1.8); }
+.mute-btn { flex: none; width: calc(var(--u) * 6); height: calc(var(--u) * 6); }
+.mute-btn svg { width: 46%; height: 46%; }
+.mute-btn.muted { border-color: #ff7a5c; color: #ffb3a0; }
+.slider { position: relative; flex: 1; height: calc(var(--u) * 6); touch-action: none; cursor: pointer; }
+.slider::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: calc(var(--u) * 0.8); margin-top: calc(var(--u) * -0.4);
+  border-radius: 99px; background: rgba(255, 255, 255, 0.14); }
+.slider .fill { position: absolute; left: 0; top: 50%; height: calc(var(--u) * 0.8); margin-top: calc(var(--u) * -0.4); border-radius: 99px;
+  background: var(--accent); box-shadow: 0 0 calc(var(--u) * 1) color-mix(in srgb, var(--accent) 60%, transparent); }
+.slider .knob { position: absolute; top: 50%; width: calc(var(--u) * 3.6); height: calc(var(--u) * 3.6); margin: calc(var(--u) * -1.8) 0 0 calc(var(--u) * -1.8);
+  border-radius: 50%; background: #fff; box-shadow: 0 0 calc(var(--u) * 1) rgba(0, 0, 0, 0.5); }
+.slider.muted .fill { background: rgba(255, 255, 255, 0.35); box-shadow: none; }
+.vol-num { flex: none; width: calc(var(--u) * 5.5); text-align: right; font-size: calc(var(--u) * 2.6); font-variant-numeric: tabular-nums; }
+.dev-list { display: flex; flex-direction: column; gap: calc(var(--u) * 0.8); min-height: 0; max-height: calc(var(--u) * 20); }
+.dev { flex: none; text-align: left; padding: calc(var(--u) * 1.3) calc(var(--u) * 2); border-radius: calc(var(--u) * 1.4); font-size: calc(var(--u) * 2.2);
+  background: rgba(255, 255, 255, 0.045); border: 1px solid var(--line-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dev.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, transparent); }
+.dev:disabled { opacity: 0.5; }
+
+/* ---------- shortcuts ---------- */
+.sc-body { display: flex; flex-direction: column; min-height: 0; }
+.sc-grid { flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, 1fr); gap: calc(var(--u) * 1.6); min-height: 0; }
+.sc-tile { position: relative; min-width: 0; min-height: 0; }
+.sc-main { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--u) * 1.4);
+  border-radius: calc(var(--u) * 2.2); background: rgba(255, 255, 255, 0.045); border: 1px solid var(--line-soft); transition: background 0.2s, border-color 0.2s; }
+.sc-main:active, .sc-main.started { background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: var(--accent); }
+.sc-tile.add .sc-main { border-style: dashed; opacity: 0.7; }
+.sc-icon { width: calc(var(--u) * 9); height: calc(var(--u) * 9); object-fit: contain; filter: drop-shadow(0 calc(var(--u) * 0.4) calc(var(--u) * 1) rgba(0, 0, 0, 0.45)); }
+.sc-icon.glyph { display: grid; place-items: center; border-radius: calc(var(--u) * 2); background: rgba(255, 255, 255, 0.08); }
+.sc-icon.glyph svg { width: 55%; height: 55%; }
+.sc-icon.letter { font-size: calc(var(--u) * 4.4); font-weight: 600; color: #140b02; background: var(--accent); }
+.sc-icon.small { width: calc(var(--u) * 5); height: calc(var(--u) * 5); border-radius: calc(var(--u) * 1.2); flex: none; }
+.sc-name { max-width: 90%; font-size: calc(var(--u) * 2.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sc-tile.editing .sc-main { opacity: 0.55; }
+.sc-edit { position: absolute; left: 0; right: 0; bottom: calc(var(--u) * 1); display: flex; justify-content: center; gap: calc(var(--u) * 1); }
+.sc-edit button { width: calc(var(--u) * 5.2); height: calc(var(--u) * 5.2); border-radius: 50%; font-size: calc(var(--u) * 2.6);
+  background: rgba(20, 22, 30, 0.85); border: 1px solid var(--line); }
+.sc-edit button:disabled { opacity: 0.3; }
+.sc-edit .sc-del { border-color: #ff7a5c; color: #ffb3a0; }
+.sc-hint { text-align: center; margin-top: calc(var(--u) * 1.4); }
+#scEdit.on { opacity: 1; color: var(--accent); background: rgba(255, 255, 255, 0.08); }
+.pick-head { display: flex; align-items: center; gap: calc(var(--u) * 2); margin-bottom: calc(var(--u) * 1.6); }
+.pick-head .chips { flex: none; }
+.pick-head .search { flex: 1; padding-top: calc(var(--u) * 1.2); padding-bottom: calc(var(--u) * 1.2); }
+.pick-head > span { flex: 1; }
+.pick-list { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); align-content: start; gap: calc(var(--u) * 0.8); padding-right: calc(var(--u) * 1); }
+.pick-list .empty { grid-column: 1 / -1; }
+.pick-item { display: flex; align-items: center; gap: calc(var(--u) * 1.4); padding: calc(var(--u) * 1) calc(var(--u) * 1.4); border-radius: calc(var(--u) * 1.4);
+  background: rgba(255, 255, 255, 0.04); font-size: calc(var(--u) * 2.1); text-align: left; min-width: 0; }
+.pick-item span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pick-item:active { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.pick-url { display: flex; flex-direction: column; gap: calc(var(--u) * 1.6); max-width: calc(var(--u) * 110); }
+.pick-url .form-actions { margin-top: calc(var(--u) * 1); }
+
+/* ---------- system: RAM, network, PC commands ---------- */
+.sys-stats { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 1.2); }
+.sys-stats .stat-v { font-size: calc(var(--u) * 3.2); }
+.mini-bar { margin-top: calc(var(--u) * 1); height: calc(var(--u) * 0.6); border-radius: 99px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.mini-bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.8s ease; }
+.net { display: flex; flex-direction: column; gap: calc(var(--u) * 0.4); margin-top: calc(var(--u) * 0.6); font-size: calc(var(--u) * 2.3); font-variant-numeric: tabular-nums; }
+.net b { font-weight: 500; }
+.pc-btns { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 1); }
+.pc-btn { position: relative; overflow: hidden; display: flex; align-items: center; gap: calc(var(--u) * 1.4); padding: calc(var(--u) * 1.6) calc(var(--u) * 2);
+  border-radius: calc(var(--u) * 1.6); background: rgba(255, 255, 255, 0.045); border: 1px solid var(--line-soft); font-size: calc(var(--u) * 2.2); }
+.pc-btn svg { position: relative; width: calc(var(--u) * 3); height: calc(var(--u) * 3); flex: none; }
+.pc-btn span:last-child { position: relative; }
+.pc-btn.hold { border-color: rgba(255, 120, 90, 0.45); }
+.pc-btn .hold-fill { position: absolute; inset: 0; width: 0; background: rgba(255, 100, 70, 0.4); }
+.pc-btn.holding .hold-fill { width: 100%; transition: width 1.5s linear; }
+.pc-btn:not(.hold):active { background: color-mix(in srgb, var(--accent) 25%, transparent); }

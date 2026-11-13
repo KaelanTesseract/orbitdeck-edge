@@ -1,0 +1,3 @@
+Planet (Saturn, Jupiter, Neptune, Mars), moon, ring and Milky Way textures: Solar System Scope (https://www.solarsystemscope.com/textures/),
+licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), based on NASA imagery.
+Changes: resized, recompressed, colour-graded and mapped in a WebGL shader by Orbitdeck Edge.
