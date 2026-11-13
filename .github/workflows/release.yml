@@ -13,7 +13,7 @@ jobs:
   release:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Read version from tag
         id: version
@@ -30,7 +30,7 @@ jobs:
           $widget = (Get-Content widget/manifest.json -Raw | ConvertFrom-Json).version
           if ($hub -ne $v -or $widget -ne $v) { throw "Version mismatch: tag $v, hub $hub, widget $widget" }
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
 
@@ -43,9 +43,9 @@ jobs:
       - name: Publish hub
         run: dotnet publish hub -c Release -o artifacts/hub
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Package widget
         run: |

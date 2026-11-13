@@ -45,6 +45,7 @@ internal sealed class SetupWizard : HubForm
         header.Controls.Add(_stepLabel);
         header.Controls.Add(_heading);
 
+        _pages = [BuildWelcome(), BuildWidget(afterUpdate)];
         var cancel = new Button { Text = Strings.Cancel, DialogResult = DialogResult.Cancel };
         _back.Click += (_, _) => GoTo(_page - 1);
         _next.Click += (_, _) =>
@@ -55,7 +56,6 @@ internal sealed class SetupWizard : HubForm
         };
         CancelButton = cancel;
 
-        _pages = [BuildWelcome(), BuildWidget(afterUpdate)];
         Controls.Add(_content);
         Controls.Add(header);
         Controls.Add(ButtonRow(_next, _back, cancel));
@@ -67,7 +67,7 @@ internal sealed class SetupWizard : HubForm
         Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false, AutoScroll = true,
     };
 
-    private static Label Text(string text, bool dim = false) => new()
+    private static Label Paragraph(string text, bool dim = false) => new()
     {
         Text = text, AutoSize = true, MaximumSize = new Size(ContentWidth, 0), Margin = new Padding(0, 0, 0, 12),
         UseMnemonic = false, // "&" is text here ("Zoom & Co."), not a keyboard shortcut
@@ -77,15 +77,15 @@ internal sealed class SetupWizard : HubForm
     private Control BuildWelcome()
     {
         var col = Column();
-        col.Controls.Add(Text(Strings.WelcomeText));
-        col.Controls.Add(Text(Strings.PrivacyNote, dim: true));
+        col.Controls.Add(Paragraph(Strings.WelcomeText));
+        col.Controls.Add(Paragraph(Strings.PrivacyNote, dim: true));
         return col;
     }
 
     private Control BuildWidget(bool afterUpdate)
     {
         var col = Column();
-        col.Controls.Add(Text(afterUpdate ? Strings.UpdatedText : Strings.WidgetText));
+        col.Controls.Add(Paragraph(afterUpdate ? Strings.UpdatedText : Strings.WidgetText));
         var install = new Button { Text = Strings.WidgetInstall, AutoSize = true, Padding = new Padding(12, 6, 12, 6), Margin = new Padding(0, 0, 0, 8) };
         install.Click += (_, _) => InstallWidget();
         col.Controls.Add(install);
